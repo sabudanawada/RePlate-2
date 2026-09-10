@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Register — RePlate{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card wide">
+    <div class="auth-logo">🍲</div>
+    <div class="eyebrow">JOIN THE NETWORK</div>
+    <h1>Create your RePlate account</h1>
+    <p>Choose how you want to contribute.</p>
+    <form method="post">
+      <div class="form-grid">
+        <label>Full Name / Organization<input name="name" required placeholder="Your name"></label>
+        <label>Role<select name="role" required><option value="donor">Food Donor</option><option value="ngo">Food Bank / NGO</option></select></label>
+        <label>Email<input type="email" name="email" required placeholder="you@example.com"></label>
+        <label>Phone<input name="phone" required placeholder="9876543210"></label>
+        <label class="span2">Location<input name="location" required placeholder="Area, City"></label>
+        <label>Password<input type="password" name="password" required placeholder="Create a password"></label>
+      </div>
+      <button class="btn primary full" type="submit">Create Account</button>
+    </form>
+    <p class="auth-foot">Already registered? <a href="{{ url_for('login') }}">Sign in</a></p>
+  </div>
+</div>
+{% endblock %}

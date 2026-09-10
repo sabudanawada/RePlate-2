@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Donor Dashboard — RePlate{% endblock %}
+{% block content %}
+<div class="dashboard">
+  <div class="dash-head"><div><div class="eyebrow">DONOR DASHBOARD</div><h1>Welcome, {{ user["name"] }} 👋</h1><p>Turn surplus food into meals for your community.</p></div><a class="btn primary" href="{{ url_for('donate') }}">＋ Donate Food</a></div>
+  <div class="metric-grid">
+    <div class="metric"><span>Total Donations</span><strong>{{ total }}</strong><small>All time</small></div>
+    <div class="metric"><span>Delivered</span><strong>{{ delivered }}</strong><small>Successfully completed</small></div>
+    <div class="metric"><span>Meals Impact</span><strong>{{ delivered * 10 + total * 5 }}</strong><small>Estimated meals</small></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><div><h2>Donation History</h2><p>Track every donation from submission to delivery.</p></div><a class="text-link" href="{{ url_for('donate') }}">New donation →</a></div>
+    {% if donations %}
+    <div class="table-wrap"><table><thead><tr><th>Food</th><th>Quantity</th><th>Pickup</th><th>Matched NGO</th><th>Status</th></tr></thead><tbody>
+    {% for d in donations %}
+    <tr><td><b>{{ d["food_type"] }}</b><small>{{ d["category"] }}</small></td><td>{{ d["quantity"] }}</td><td>{{ d["pickup_date"] }}<small>{{ d["pickup_time"] }}</small></td><td>{{ d["ngo_name"] or "Finding match..." }}{% if d["distance"] %}<small>{{ d["distance"] }} km away</small>{% endif %}</td><td><span class="status {{ d['status'].lower().replace(' ','-') }}">{{ d["status"] }}</span></td></tr>
+    {% endfor %}</tbody></table></div>
+    {% else %}
+    <div class="empty"><span>🍱</span><h3>No donations yet</h3><p>Your first donation can help feed someone today.</p><a class="btn primary" href="{{ url_for('donate') }}">Donate Food</a></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

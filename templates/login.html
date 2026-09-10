@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Login — RePlate{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">🍲</div>
+    <div class="eyebrow">WELCOME BACK</div>
+    <h1>Sign in to RePlate</h1>
+    <p>Access your dashboard and manage your donations.</p>
+    <form method="post">
+      <label>Email<input type="email" name="email" placeholder="you@example.com" required></label>
+      <label>Password<input type="password" name="password" placeholder="••••••••" required></label>
+      <button class="btn primary full" type="submit">Sign In</button>
+    </form>
+    <div class="demo-box"><b>Demo accounts</b><br>Donor: donor@replate.demo / 1234<br>NGO: ngo@replate.demo / 1234<br>Admin: admin@replate.demo / admin123</div>
+    <p class="auth-foot">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+  </div>
+</div>
+{% endblock %}

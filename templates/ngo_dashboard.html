@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}NGO Dashboard — RePlate{% endblock %}
+{% block content %}
+<div class="dashboard">
+  <div class="dash-head"><div><div class="eyebrow">NGO / FOOD BANK DASHBOARD</div><h1>{{ user["name"] }} 🏢</h1><p>Manage nearby donation requests and pickups.</p></div><span class="verified">✓ Verified Organization</span></div>
+  <div class="metric-grid">
+    <div class="metric"><span>Incoming Requests</span><strong>{{ requests|length }}</strong><small>Assigned to you</small></div>
+    <div class="metric"><span>Accepted</span><strong>{{ accepted }}</strong><small>Ready for pickup</small></div>
+    <div class="metric"><span>Completed</span><strong>{{ completed }}</strong><small>Delivered</small></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><div><h2>Donation Requests</h2><p>Requests matched to your organization.</p></div></div>
+    {% if requests %}
+    <div class="request-list">
+    {% for r in requests %}
+      <div class="request-card">
+        <div class="request-main"><div class="food-icon">🍱</div><div><h3>{{ r["food_type"] }} <span class="status {{ r['status'].lower().replace(' ','-') }}">{{ r["status"] }}</span></h3><p><b>{{ r["quantity"] }}</b> • {{ r["category"] }} • 📍 {{ r["distance"] }} km away</p><p>Donor: {{ r["donor_name"] }} • {{ r["donor_phone"] }}</p><p>Pickup: {{ r["pickup_date"] }} at {{ r["pickup_time"] }}</p></div></div>
+        <div class="request-actions">
+        {% if r["match_status"] == "Pending" %}
+          <form method="post" action="{{ url_for('ngo_action', match_id=r['match_id'], action='accept') }}"><button class="btn primary small" type="submit">✓ Accept</button></form>
+          <form method="post" action="{{ url_for('ngo_action', match_id=r['match_id'], action='reject') }}"><button class="btn danger small" type="submit">Reject</button></form>
+        {% elif r["match_status"] == "Accepted" and r["status"] == "Accepted" %}
+          <form method="post" action="{{ url_for('update_status', donation_id=r['id'], status='Picked Up') }}"><button class="btn secondary small" type="submit">Mark Picked Up</button></form>
+        {% elif r["status"] == "Picked Up" %}
+          <form method="post" action="{{ url_for('update_status', donation_id=r['id'], status='Delivered') }}"><button class="btn primary small" type="submit">Mark Delivered</button></form>
+        {% elif r["status"] == "Delivered" %}
+          <span class="completed">✓ Completed</span>
+        {% else %}
+          <span class="muted">Request {{ r["match_status"] }}</span>
+        {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    {% else %}
+      <div class="empty"><span>🔔</span><h3>No requests yet</h3><p>New nearby donation requests will appear here.</p></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

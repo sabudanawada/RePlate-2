@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel — RePlate{% endblock %}
+{% block content %}
+<div class="dashboard">
+  <div class="dash-head"><div><div class="eyebrow">ADMIN CONTROL CENTER</div><h1>Platform Overview ⚙️</h1><p>Monitor users, organizations and donation activity.</p></div></div>
+  <div class="metric-grid four">
+    <div class="metric"><span>Total Users</span><strong>{{ stats.users }}</strong></div>
+    <div class="metric"><span>NGOs</span><strong>{{ stats.ngos }}</strong></div>
+    <div class="metric"><span>Donations</span><strong>{{ stats.donations }}</strong></div>
+    <div class="metric"><span>Delivered</span><strong>{{ stats.delivered }}</strong></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><div><h2>Organization Verification</h2><p>Verify NGO accounts before they receive matched donations.</p></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Location</th><th>Status</th><th>Action</th></tr></thead><tbody>
+    {% for u in users if u["role"]=="ngo" %}
+      <tr><td><b>{{ u["name"] }}</b></td><td>NGO / Food Bank</td><td>{{ u["email"] }}</td><td>{{ u["location"] }}</td><td>{% if u["verified"] %}<span class="status delivered">Verified</span>{% else %}<span class="status pending">Pending</span>{% endif %}</td><td>{% if not u["verified"] %}<form method="post" action="{{ url_for('verify_user',user_id=u['id']) }}"><button class="btn primary tiny">Verify</button></form>{% else %}<span class="muted">Active</span>{% endif %}</td></tr>
+    {% endfor %}
+    </tbody></table></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><div><h2>Donation Monitor</h2><p>Platform-wide donation status.</p></div></div>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Donor</th><th>Food</th><th>NGO</th><th>Status</th></tr></thead><tbody>
+    {% for d in donations %}
+      <tr><td>#{{ d["id"] }}</td><td>{{ d["donor_name"] }}</td><td>{{ d["food_type"] }} — {{ d["quantity"] }}</td><td>{{ d["ngo_name"] or "Unmatched" }}</td><td><span class="status {{ d['status'].lower().replace(' ','-') }}">{{ d["status"] }}</span></td></tr>
+    {% else %}
+      <tr><td colspan="5" class="center">No donations recorded.</td></tr>
+    {% endfor %}
+    </tbody></table></div>
+  </div>
+</div>
+{% endblock %}

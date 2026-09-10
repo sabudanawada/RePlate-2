@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Donate Food — RePlate{% endblock %}
+{% block content %}
+<div class="form-page">
+  <div class="page-title"><div class="eyebrow">DONOR • NEW DONATION</div><h1>Share surplus food</h1><p>Give us a few details and we'll match you with a nearby verified organization.</p></div>
+  <form class="donation-form" method="post">
+    <div class="panel">
+      <h2>Food details</h2>
+      <div class="form-grid">
+        <label>Food type<input name="food_type" required placeholder="e.g. Rice, meals, bread"></label>
+        <label>Quantity<input name="quantity" required placeholder="e.g. 50 meals / 10 kg"></label>
+        <label>Category<select name="category"><option>Vegetarian</option><option>Non-Vegetarian</option><option>Mixed</option></select></label>
+        <label>Food image URL <span class="optional">(optional)</span><input name="image" placeholder="https://..."></label>
+        <label class="span2">Additional notes<textarea name="notes" rows="3" placeholder="Allergen information, packaging details, etc."></textarea></label>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Pickup details</h2>
+      <div class="form-grid">
+        <label class="span2">Pickup location<input id="location" name="pickup_location" required placeholder="Restaurant / address / landmark"></label>
+        <label>Pickup date<input type="date" name="pickup_date" required></label>
+        <label>Pickup time<input type="time" name="pickup_time" required></label>
+        <label>Contact number<input name="contact" required value="{{ user['phone'] or '' }}"></label>
+      </div>
+      <button type="button" class="location-btn" onclick="useLocation()">📍 Use my current location</button>
+      <p id="location-status" class="helper"></p>
+    </div>
+    <div class="match-preview"><span>📍</span><div><b>Automatic nearest matching</b><p>After submission, RePlate ranks verified NGOs by distance and selects the closest available match.</p></div></div>
+    <button class="btn primary big" type="submit">Submit Donation & Find NGO →</button>
+  </form>
+</div>
+{% endblock %}
