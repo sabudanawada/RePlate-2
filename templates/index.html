@@ -1,1 +1,133 @@
+{% extends "base.html" %}
 
+{% block title %}RePlate | Rescue. Redistribute. Repeat.{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div>
+        <p class="eyebrow">FOOD DONATION & REDISTRIBUTION PLATFORM</p>
+
+        <h1>
+            Turn surplus food into
+            <span>shared meals.</span>
+        </h1>
+
+        <p class="hero-text">
+            RePlate connects food donors with NGOs so safe surplus food
+            can reach people who need it instead of going to waste.
+        </p>
+
+        <div class="actions">
+            <a class="btn" href="{{ url_for('register') }}">
+                Donate Food
+            </a>
+
+            <a class="btn btn-outline" href="{{ url_for('register') }}">
+                Join as NGO
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-card">
+        <div class="plate">🍽️</div>
+
+        <h3>One plate can make a difference.</h3>
+
+        <p>Rescue. Redistribute. Repeat.</p>
+    </div>
+</section>
+
+
+<section class="stats">
+
+    <div>
+        <b>{{ stats.donations }}</b>
+        <span>Donations</span>
+    </div>
+
+    <div>
+        <b>{{ stats.donors }}</b>
+        <span>Donors</span>
+    </div>
+
+    <div>
+        <b>{{ stats.ngos }}</b>
+        <span>NGO Partners</span>
+    </div>
+
+    <div>
+        <b>{{ stats.completed }}</b>
+        <span>Completed</span>
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <p class="eyebrow">HOW IT WORKS</p>
+
+    <h2>From surplus to service in three steps</h2>
+
+    <div class="cards">
+
+        <article>
+
+            <div class="number">01</div>
+
+            <h3>Donor posts food</h3>
+
+            <p>
+                Hotels, restaurants and individuals add details about
+                safe surplus food and pickup time.
+            </p>
+
+        </article>
+
+
+        <article>
+
+            <div class="number">02</div>
+
+            <h3>NGO accepts</h3>
+
+            <p>
+                Partner NGOs view available donations and coordinate
+                collection.
+            </p>
+
+        </article>
+
+
+        <article>
+
+            <div class="number">03</div>
+
+            <h3>Food reaches people</h3>
+
+            <p>
+                The food is collected and redistributed to communities
+                through verified partners.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<section class="cta">
+
+    <h2>Have extra food today?</h2>
+
+    <p>Don't waste it. RePlate it.</p>
+
+    <a class="btn" href="{{ url_for('register') }}">
+        Start Donating
+    </a>
+
+</section>
+
+{% endblock %}
