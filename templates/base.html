@@ -1,54 +1,77 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}RePlate{% endblock %}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RePlate{% endblock %}</title>
+    <meta name="description" content="RePlate - Rescue. Redistribute. Repeat. A food donation and redistribution platform.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 <header class="navbar">
-  <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">🍲</span> Food<span>Share</span></a>
-  <nav>
-    <a href="{{ url_for('home') }}">Home</a>
-    <a href="{{ url_for('home') }}#how">How It Works</a>
-    <a href="{{ url_for('home') }}#impact">Impact</a>
-    {% if user %}
-      <a href="{{ url_for('dashboard') }}">Dashboard</a>
-      <a class="nav-logout" href="{{ url_for('logout') }}">Logout</a>
-    {% else %}
-      <a href="{{ url_for('login') }}">Login</a>
-      <a class="nav-cta" href="{{ url_for('register') }}">Get Started</a>
-    {% endif %}
-  </nav>
+    <!-- RePlate Logo / Brand -->
+    <a class="brand" href="{{ url_for('home') }}">
+        <span class="brand-mark">Re</span>
+        <span>Plate</span>
+    </a>
+    <!-- Navigation -->
+    <nav>
+        <a href="{{ url_for('home') }}">
+            Home
+        </a>
+        {% if session.get('role') == 'donor' %}
+            <a href="{{ url_for('donor_dashboard') }}">
+                Dashboard
+            </a>
+            <a href="{{ url_for('donate') }}">
+                Donate Food
+            </a>
+        {% elif session.get('role') == 'ngo' %}
+            <a href="{{ url_for('ngo_dashboard') }}">
+                NGO Dashboard
+            </a>
+        {% elif session.get('role') == 'admin' %}
+            <a href="{{ url_for('admin_dashboard') }}">
+                Admin Dashboard
+            </a>
+        {% endif %}
+        {% if session.get('user_id') %}
+            <a class="btn btn-small" href="{{ url_for('logout') }}">
+                Logout
+            </a>
+        {% else %}
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+            <a class="btn btn-small" href="{{ url_for('register') }}">
+                Get Started
+            </a>
+        {% endif %}
+    </nav>
 </header>
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-  <div class="flash-wrap">
-    {% for category, message in messages %}
-      <div class="flash {{ category }}">{{ message }}</div>
-    {% endfor %}
-  </div>
-  {% endif %}
-{% endwith %}
-
-<main>{% block content %}{% endblock %}</main>
-
+<!-- Flash Messages -->
+<main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-wrap">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <!-- Page Content -->
+    {% block content %}
+    {% endblock %}
+</main>
+<!-- Footer -->
 <footer>
-  <div class="footer-inner">
-    <div>
-      <div class="brand footer-brand"><span class="brand-mark">🍲</span> Food<span>Share</span></div>
-      <p>Turning surplus food into meaningful meals.</p>
-    </div>
-    <div><b>Platform</b><a href="{{ url_for('register') }}">Become a Donor</a><a href="{{ url_for('register') }}">Join as NGO</a></div>
-    <div><b>Project</b><a href="{{ url_for('home') }}#how">How it works</a><a href="{{ url_for('home') }}#impact">Our impact</a></div>
-  </div>
-  <div class="copyright">© 2026 RePlate • College Project Prototype</div>
+    <strong>RePlate</strong>
+    <span> — Rescue. Redistribute. Repeat.</span>
 </footer>
+<!-- JavaScript -->
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
